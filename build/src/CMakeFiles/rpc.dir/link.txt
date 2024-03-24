@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC -shared -Wl,-soname,librpc.so -o ../../lib/librpc.so CMakeFiles/rpc.dir/rpcApplication.cc.o CMakeFiles/rpc.dir/rpcProvider.cc.o 
