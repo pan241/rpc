@@ -3,11 +3,17 @@
 
 #include "rpcApplication.h"
 
+rpcConfig rpcApplication::config_;
+
 void showArgsHelp()
 {
     std::cout << "format: command -i <configfile>" << std::endl;
 }
 
+rpcApplication::rpcApplication()
+{
+
+}
 void rpcApplication::Init(int argc, char** argv)
 {
     if (argc < 2)
@@ -18,7 +24,7 @@ void rpcApplication::Init(int argc, char** argv)
 
     int c = 0;
     std::string config_file;
-    while ((c = getopt(argc, argc, "i,:")) != -1)
+    while ((c = getopt(argc, argv, "i:")) != -1)
     {
         switch (c)
         {
@@ -26,11 +32,7 @@ void rpcApplication::Init(int argc, char** argv)
             config_file = optarg;
             break;
         case '?' :
-            std::cout << "invalid args!" << std::endl;
-            showArgsHelp();
-            exit(EXIT_FAILURE);
         case ':' :
-            std::cout << "need <configfile>" << std::endl;
             showArgsHelp();
             exit(EXIT_FAILURE);
         default :
@@ -38,10 +40,16 @@ void rpcApplication::Init(int argc, char** argv)
         }    
     }
 
+    config_.loadConfigFile(config_file.c_str());
 }
 
 rpcApplication& rpcApplication::getInstance()
 {
     static rpcApplication app;
     return app;
+}
+
+rpcConfig& rpcApplication::getConfig()
+{
+    return config_;
 }
